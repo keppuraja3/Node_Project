@@ -6,5 +6,4 @@ const UserController = require("../Controllers/UserController")
 
 route.get("/user/add", UserController.insert)
 
-
 module.exports =route

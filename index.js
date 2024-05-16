@@ -5,17 +5,22 @@ const port = 9090
 const UserRoute  = require("./Routes/UserRoute")
 app.use(UserRoute)
 
+app.get("/",(req,res)=>{
+    res.send("Home page")
+})
+
 app.get("/vanakkam",(req,res)=>{
     res.send("Vanakkam da mapla")
 })
 
 app.use(express.json())
-
+const identifierAndCustomer = require("./Routes/IdentifierCustomerRoute")
+app.use(identifierAndCustomer)
 
 //======================== Mongo db config
 const mongoose = require("mongoose")
 
-const MONGODB_URL = "mongodb://127.0.0.1.:27017"
+const MONGODB_URL = "mongodb://localhost:27017/food-valley"
 
 mongoose.connect(MONGODB_URL)
 .then(()=>{

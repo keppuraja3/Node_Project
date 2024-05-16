@@ -1,12 +1,18 @@
 const UserModel = require("../Models/UserModel")
+const {body, validationResult} = require("express-validator")
 
-exports.insert=[(req,res)=>{
+exports.insert=[
+    body("name").trim().isLength({min:1}).withMessage("Title cannot be empty"),
+    body("name").trim().isAlphanumeric().withMessage("Title can contain only letters"),
+    body("address").trim().isLength({min:10}).withMessage("Cannot be less htan 10 Characters"),
+    (req,res)=>{
+        const errors = validationResult(req)
     const user = new UserModel ({
         id:3,
-        name: "Keppuraja",
-        email: "keppuraja3@gmail.com",
-        phoneNo: 9786454635,
-        address: "Madurai"
+        name: "Tamil",
+        email: "tamil@gmail.com",
+        phoneNo: 8649038584,
+        address: "Avanyapuram"
     })
 
     user.save()
@@ -25,5 +31,15 @@ exports.list = [(req,res)=>{
     })
     .catch((err)=>{
         return res.status(200).sed(err.message)
+    })
+}]
+
+exports.find = [(req,res)=>{
+    UserModel.find({id: req.params.id})
+    .then((user)=>{
+        return res.status(200).send(user)
+    })
+    .catch((err)=>{
+        return res.status(200).send(err.message)
     })
 }]
