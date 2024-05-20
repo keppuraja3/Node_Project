@@ -16,6 +16,10 @@ app.get("/vanakkam",(req,res)=>{
 app.use(express.json())
 const identifierAndCustomer = require("./Routes/IdentifierCustomerRoute")
 app.use(identifierAndCustomer)
+const PostWithImage = require("./Routes/PostRoute")
+app.use(PostWithImage)
+const User = require("./Routes/UserRoute")
+app.use(User)
 
 //======================== Mongo db config
 const mongoose = require("mongoose")

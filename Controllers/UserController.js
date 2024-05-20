@@ -1,19 +1,22 @@
 const UserModel = require("../Models/UserModel")
 const {body, validationResult} = require("express-validator")
+const express = require('express')
+const jwt =require('jsonwebtoken')
+
 
 exports.insert=[
     body("name").trim().isLength({min:1}).withMessage("Title cannot be empty"),
     body("name").trim().isAlphanumeric().withMessage("Title can contain only letters"),
-    body("address").trim().isLength({min:10}).withMessage("Cannot be less htan 10 Characters"),
+    body("password").trim().isLength({min:8}).withMessage("Cannot be less than 8 Characters"),
     (req,res)=>{
         const errors = validationResult(req)
     const user = new UserModel ({
         id:3,
-        name: "Tamil",
-        email: "tamil@gmail.com",
-        phoneNo: 8649038584,
-        address: "Avanyapuram"
+        username: req.body.username,
+        password: req.body.password,
+        email: req.body.email,
     })
+
 
     user.save()
     .then((u)=>{
