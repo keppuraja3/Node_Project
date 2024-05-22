@@ -12,6 +12,7 @@ http.createServer(function (req, res){
 
 */
 
+const { error } = require('console');
 const express = require('express');
 
 const app = express()
@@ -25,6 +26,47 @@ app.get("/",(req, res)=>{
 // app.get("*",(req,res)=>{
     //     res.send("Page not found")
 // })
+
+const multer = require('multer')
+const path  = require('path')
+
+// Multer function configuration-
+const storage = multer.diskStorage({
+    destination: function (req, file, cb){
+        if(path.extname(file.originalname)=='.jpg'){
+            cb(null, './public/data/uploads/')
+        }
+        else{
+            console.log("file format only in .jpg");
+            // req.status(200).send("file format only in .jpg");
+        }
+    },
+    filename: function (req,file,cb){
+        cb(null, Date.now()+path.extname(file.originalname))// Appending extension
+    }
+})
+
+const uploader = multer({storage: storage})
+
+
+app.post('/upload/file', uploader.single('Upload_File'),(req,res)=>{
+    
+    console.log("file--------",req.file);
+    console.log("body---------",req.body);
+    res.status(200).send("File Uploaded Sucessfully....!")
+})
+
+app.post('/upload/files',uploader.array("Upload_File",10),(req,res)=>{
+    console.log("file--------",req.file);
+    console.log("body---------",req.body);
+    res.status(200).send("Multiple files uploaded successfully")
+} )
+
+
+
+
+
+
 
 
 app.get("/login",(req,res)=>{

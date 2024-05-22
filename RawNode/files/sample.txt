@@ -1,0 +1,2 @@
+This file is a readme text file for this project
+ This is raw node project file
